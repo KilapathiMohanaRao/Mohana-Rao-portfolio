@@ -1,0 +1,145 @@
+/* ======================== */
+/* Header / Hero Section */
+/* ======================== */
+.header {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  background: url('public/Backgroundimg.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Profile Image */
+.header-img {
+  width: 150px;            
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid #facc15;
+}
+
+/* Optional dark overlay */
+.header::before {
+  content: "";
+  position: absolute;
+  top: -50; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 0;
+}
+
+/* Header content container */
+.header-content {
+  position: relative;
+  max-width: 900px;
+  z-index: 1;
+  animation: fadeSlideIn 1s ease-out forwards;
+}
+
+/* Title with typing animation */
+.header-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,255,255,0.7), 0 0 20px rgba(0,255,255,0.5);
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #0ff;
+  display: inline-block;
+  animation: typing 2s steps(35, end) forwards, blink 0.7s infinite;
+}
+
+/* Subtitle */
+.header-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  color: #fff;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 1s forwards;
+  text-shadow: 0 0 5px rgba(255,255,255,0.7);
+}
+
+/* Buttons */
+.header-buttons .btn {
+  padding: 12px 30px;
+  margin: 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #2563eb, #facc15, #4ade80);
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn-secondary:hover {
+  background: #fff;
+  color: #2563eb;
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* Animations */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 50%, 100% { border-color: #0ff; }
+  25%, 75% { border-color: transparent; }
+}
+
+@keyframes fadeSlideIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================== Responsive / Mobile View ================== */
+@media screen and (max-width: 1024px) {
+  .header-img { width: 130px; height: 130px; }
+  .header-title { font-size: 2.5rem; }
+  .header-subtitle { font-size: 1.2rem; }
+  .header-buttons .btn { padding: 11px 25px; font-size: 0.95rem; }
+}
+
+@media screen and (max-width: 768px) {
+  .header-img { width: 120px; height: 120px; margin-bottom: 15px; }
+  .header-title { font-size: 2rem; }
+  .header-subtitle { font-size: 1rem; }
+  .header-buttons .btn { padding: 10px 20px; font-size: 0.9rem; margin: 5px; }
+}
+
+@media screen and (max-width: 480px) {
+  .header-img { width: 100px; height: 100px; margin-bottom: 12px; border: 2px solid #facc15; }
+  .header-title { font-size: 1.6rem; border-right: 2px solid #0ff; }
+  .header-subtitle { font-size: 0.9rem; margin-bottom: 20px; }
+  .header-buttons .btn { padding: 8px 18px; font-size: 0.85rem; margin: 4px; }
+}
