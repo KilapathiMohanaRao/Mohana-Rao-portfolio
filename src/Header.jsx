@@ -18,7 +18,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header-content">
-        <img src="public/Mohan.jpg" alt="Mohan" className="header-img" />
+        <img src="/Mohan.jpg" alt="Mohan" className="header-img" />
         <h1 className="header-title">{text}</h1>
         <p className="header-subtitle">
           I build modern and responsive web applications.
