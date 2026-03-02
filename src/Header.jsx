@@ -67,7 +67,7 @@ const Header = () => {
         >
           <div className="image-wrapper">
             <div className="image-backdrop"></div>
-            <img src="/Mohan.jpg" alt="Mohana Rao" className="profile-img" />
+            <img src="/Mohan-Photo.jpeg" alt="Mohana Rao" className="profile-img" />
           </div>
         </motion.div>
       </div>
