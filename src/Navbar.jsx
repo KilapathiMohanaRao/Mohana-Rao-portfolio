@@ -1,79 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { FaHome, FaUser, FaProjectDiagram, FaEnvelope, FaTools } from "react-icons/fa";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { FaSun, FaMoon } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = ({ darkMode, setDarkMode }) => {
-  const [open, setOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const rotateX = useTransform(scrollY, [0, 100], [0, 15]);
+  const scale = useTransform(scrollY, [0, 100], [1, 0.95]);
+
   const [scrolled, setScrolled] = useState(false);
 
-  // Add shadow when scrolling
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="logo">Mohana Rao Portfolio</div>
-
-      {/* Desktop Menu */}
-      <ul className="nav-links desktop-menu">
-        <li><a href="#home"><FaHome /> Home</a></li>
-        <li><a href="#about"><FaUser /> About</a></li>
-        <li><a href="#skills"><FaTools /> Skills</a></li>
-        <li><a href="#projects"><FaProjectDiagram /> Projects</a></li>
-        <li><a href="#contact"><FaEnvelope /> Contact</a></li>
-        <li>
-          <button onClick={() => setDarkMode(!darkMode)} className="dark-toggle">
-            {darkMode ? "☀️" : "🌙"}
-          </button>
-        </li>
-      </ul>
-
-      {/* Hamburger */}
-      <div className={`hamburger ${open ? "active" : ""}`} onClick={() => setOpen(!open)}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${open ? "open" : ""}`}>
-        <ul>
-          <li>
-            <a href="#home" onClick={() => setOpen(false)}>
-              <FaHome size={20} /> Home
-            </a>
-          </li>
-          <li>
-            <a href="#about" onClick={() => setOpen(false)}>
-              <FaUser size={20} /> About
-            </a>
-          </li>
-          <li>
-            <a href="#skills" onClick={() => setOpen(false)}>
-              <FaTools size={20} /> Skills
-            </a>
-          </li>
-          <li>
-            <a href="#projects" onClick={() => setOpen(false)}>
-              <FaProjectDiagram size={20} /> Projects
-            </a>
-          </li>
-          <li>
-            <a href="#contact" onClick={() => setOpen(false)}>
-              <FaEnvelope size={20} /> Contact
-            </a>
-          </li>
-          <li>
-            <button onClick={() => setDarkMode(!darkMode)} className="dark-toggle">
-              {darkMode ? "☀️" : "🌙"}
+    <motion.nav
+      className={`navbar ${scrolled ? "scrolled" : ""}`}
+      style={{ rotateX, scale, perspective: 1000 }}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: "spring", stiffness: 100, damping: 20 }}
+    >
+      <div className="nav-container">
+        <ul className="nav-links">
+          <motion.li whileHover={{ y: -3, scale: 1.1 }}><a href="#about" className="nav-item">About</a></motion.li>
+          <motion.li whileHover={{ y: -3, scale: 1.1 }}><a href="#skills" className="nav-item">Skills</a></motion.li>
+          <motion.li whileHover={{ y: -3, scale: 1.1 }}><a href="#projects" className="nav-item">Projects</a></motion.li>
+          <motion.li whileHover={{ y: -3, scale: 1.1 }}><a href="#contact" className="nav-item">Contact</a></motion.li>
+          <motion.li whileHover={{ y: -3, scale: 1.1 }}>
+            <button
+              className="theme-toggle"
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Toggle Theme"
+            >
+              {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
             </button>
-          </li>
+          </motion.li>
         </ul>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

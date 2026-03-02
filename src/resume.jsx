@@ -16,7 +16,7 @@ const Hero = () => {
           <button className="btn-primary" onClick={() => handleScroll("contact")}>
             Hire Me
           </button>
-          <a href="/Mohan_Resume.pdf" download className="btn-outline">
+          <a href="/Mohana_Rao.pdf" download className="btn-outline">
             Download Resume
           </a>
         </div>
