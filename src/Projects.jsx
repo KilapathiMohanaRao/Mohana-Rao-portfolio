@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Projects.css";
 
 const projects = [
@@ -15,8 +15,8 @@ const projects = [
     title: "Real-time Product App",
     description: "High-performance tracking app featuring WebSocket integration for live data and user tracking.",
     tech: ["Spring Boot", "React", "WebSocket", "MySQL"],
-    githubLink: "https://github.com/yourusername/chat-app",
-    liveLink: "https://your-chatapp-live.com",
+    githubLink: "https://github.com/KilapathiMohanaRao/product-Store",
+    liveLink: "#",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
   },
   {
@@ -24,12 +24,27 @@ const projects = [
     description: "A highly resilient backend microservice architecture to convert multiple global currencies in real-time.",
     tech: ["Java", "Spring Boot", "REST API", "Microservices"],
     githubLink: "https://github.com/KilapathiMohanaRao/SpringRepository",
-    liveLink: "https://your-currency-api.com",
+    liveLink: "#",
     image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&h=400&fit=crop",
   },
 ];
 
 const Projects = () => {
+  const [fallbackModalOpen, setFallbackModalOpen] = useState(false);
+  const [fallbackMessage, setFallbackMessage] = useState("");
+
+  const handleLinkClick = (e, link, type) => {
+    if (link === "#" || !link) {
+      e.preventDefault();
+      setFallbackMessage(
+        type === "source"
+          ? "The source code for this project is currently private or unavailable."
+          : "The live preview for this project is currently unavailable."
+      );
+      setFallbackModalOpen(true);
+    }
+  };
+
   return (
     <div className="container" id="projects-container">
       <h2 className="section-title">Selected Works</h2>
@@ -58,10 +73,22 @@ const Projects = () => {
               </div>
 
               <div className="project-actions">
-                <a href={p.githubLink} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+                <a
+                  href={p.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary"
+                  onClick={(e) => handleLinkClick(e, p.githubLink, "source")}
+                >
                   Source Code
                 </a>
-                <a href={p.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                <a
+                  href={p.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                  onClick={(e) => handleLinkClick(e, p.liveLink, "live")}
+                >
                   Live Preview
                 </a>
               </div>
@@ -69,6 +96,72 @@ const Projects = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Fallback Modal */}
+      <AnimatePresence>
+        {fallbackModalOpen && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setFallbackModalOpen(false)}
+            style={{ zIndex: 9999 }}
+          >
+            <motion.div
+              className="modal-content glass-panel"
+              initial={{ y: -50, opacity: 0, scale: 0.9 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 50, opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ textAlign: "center", maxWidth: "400px", padding: "40px" }}
+            >
+              <button
+                className="close-btn"
+                onClick={() => setFallbackModalOpen(false)}
+                style={{ top: "15px", right: "15px" }}
+              >
+                ×
+              </button>
+
+              <motion.div
+                className="fallback-icon"
+                initial={{ rotate: -10, scale: 0.8 }}
+                animate={{ rotate: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.1 }}
+                style={{ fontSize: "4rem", marginBottom: "20px" }}
+              >
+                🚧
+              </motion.div>
+
+              <h3 style={{
+                color: "#fff",
+                fontSize: "1.5rem",
+                marginBottom: "15px",
+                background: "linear-gradient(90deg, #fff, #ff5e62)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent"
+              }}>
+                Coming Soon!
+              </h3>
+
+              <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: "1.6" }}>
+                {fallbackMessage}
+              </p>
+
+              <button
+                className="btn btn-primary"
+                onClick={() => setFallbackModalOpen(false)}
+                style={{ marginTop: "25px", width: "100%" }}
+              >
+                Got it
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

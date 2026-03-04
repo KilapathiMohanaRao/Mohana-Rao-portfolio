@@ -8,15 +8,40 @@ const Contact = ({ handleToast }) => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.name && form.email && form.message) {
       setLoading(true);
-      setTimeout(() => {
-        handleToast("Message Sent Successfully!");
-        setForm({ name: "", email: "", message: "" });
+
+      const formData = new FormData();
+      formData.append("access_key", "476592fd-c4e5-4095-8063-ca9fc7554157");
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append("message", form.message);
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          handleToast("Message Sent Successfully!");
+          setForm({ name: "", email: "", message: "" });
+        } else {
+          handleToast("Failed to send message. Please try again.");
+          console.error("Form submission error", data);
+        }
+      } catch (error) {
+        handleToast("An error occurred. Please try again.");
+        console.error("Network error during form submission", error);
+      } finally {
         setLoading(false);
-      }, 1500);
+      }
+    } else {
+      handleToast("Please fill in all fields.");
     }
   };
 
